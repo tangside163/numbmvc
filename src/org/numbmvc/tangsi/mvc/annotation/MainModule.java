@@ -25,4 +25,6 @@ public @interface MainModule {
      */
     String[] staticResource();
 
+
+
 }
