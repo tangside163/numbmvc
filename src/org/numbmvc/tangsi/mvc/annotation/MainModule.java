@@ -20,7 +20,7 @@ public @interface MainModule {
 
 
     /**
-     * 静态资源，配置的静态资源将不会被numb给拦截
+     * 静态资源，配置的静态资源将不会被numbmvc给拦截
      * @return
      */
     String[] staticResource();
