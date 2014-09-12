@@ -12,7 +12,17 @@ import java.lang.annotation.*;
 @Documented
 public @interface MainModule {
 
+    /**
+     * 包名，也就是类扫描路径
+     * @return
+     */
     String scanPackage() default "";
 
+
+    /**
+     * 静态资源，配置的静态资源将不会被numb给拦截
+     * @return
+     */
+    String[] staticResource();
 
 }
