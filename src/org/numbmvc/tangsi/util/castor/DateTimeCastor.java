@@ -1,4 +1,4 @@
-package org.numbmvc.tangsi.util;
+package org.numbmvc.tangsi.util.castor;
 
 import java.sql.Time;
 import java.text.DateFormat;

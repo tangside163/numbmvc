@@ -1,5 +1,7 @@
 package org.numbmvc.tangsi.util;
 
+import org.numbmvc.tangsi.util.castor.DateTimeCastor;
+
 import java.text.SimpleDateFormat;
 
 /**
