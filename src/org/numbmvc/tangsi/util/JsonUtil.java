@@ -34,6 +34,8 @@ public class JsonUtil {
         }else if(mirror.isDateTimeLike()) {  //日期类型
             DateTimeCastor castor = DateTimeCastor.getInstance().setDateFormat(new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss"));
             string2Json(castor.castToString(obj), format, sb);
+        }else if(mirror.isMapLike()) {
+
         }
 
 

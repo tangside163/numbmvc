@@ -3,6 +3,7 @@ package org.numbmvc.tangsi.util;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 对class对象的包裹，提供该对象用于反射的常用方法
@@ -72,4 +73,11 @@ public class Mirror {
                 || Time.class.isAssignableFrom(this.clazz);
     }
 
+    /**
+     * 是否是类Map类型
+     * @return
+     */
+    public boolean isMapLike() {
+        return Map.class.isAssignableFrom(this.clazz);
+    }
 }
