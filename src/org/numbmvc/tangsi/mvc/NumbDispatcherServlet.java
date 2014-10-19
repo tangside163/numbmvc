@@ -1,19 +1,14 @@
 package org.numbmvc.tangsi.mvc;
 
 import org.apache.log4j.Logger;
-import org.numbmvc.tangsi.mvc.annotation.Controller;
 import org.numbmvc.tangsi.mvc.annotation.MainModule;
-import org.numbmvc.tangsi.mvc.annotation.RequestMapping;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,7 +58,7 @@ public class NumbDispatcherServlet extends HttpServlet {
                 logger.error("主模块没有设置包扫描路径!");
                 throw new RuntimeException("主模块没有设置包扫描路径!");
             }else {
-                LoadSettings.getInstance().setScanPackage(scanPackage);
+                MvcSettings.getInstance().setScanPackage(scanPackage);
             }
 
         }else {
@@ -120,7 +115,7 @@ public class NumbDispatcherServlet extends HttpServlet {
                             jarFileName = jarFileName.replaceAll("[/\\\\]",".");
                             jarFileName = jarFileName.substring(0,jarFileName.lastIndexOf("."));   //去掉类文件的文件后缀.class
                             //只扫描指定的包及其子包中的class字节码文件
-                            if(jarFileName.startsWith(LoadSettings.getInstance().getScanPackage())) {
+                            if(jarFileName.startsWith(MvcSettings.getInstance().getScanPackage())) {
                                 MVCLoader.getInstance().parseClass(jarFileName,this.getServletContext());
                             }
 
@@ -148,7 +143,7 @@ public class NumbDispatcherServlet extends HttpServlet {
                         fileName = fileName.substring(fileName.indexOf(basePath)+basePath.length()+1,fileName.length());
                         fileName = fileName.replaceAll("[/\\\\]",".");
                         //只扫描指定的包及其子包中的class字节码文件
-                        if(fileName.startsWith(LoadSettings.getInstance().getScanPackage())) {
+                        if(fileName.startsWith(MvcSettings.getInstance().getScanPackage())) {
                             //例如文件fileName = com.tangsi.auth.controller.AuthController.class
                             //加载class之前去掉.class 变成 com.tangsi.auth.controller.AuthController
                             MVCLoader.getInstance().parseClass(fileName.substring(0,fileName.length() - 6),this.getServletContext());

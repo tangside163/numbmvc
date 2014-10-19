@@ -4,14 +4,14 @@ package org.numbmvc.tangsi.mvc;
  * 存储配置文件的路径,必须单例
  * created by tangsi 2014/9/7
  */
-public class LoadSettings {
+public class MvcSettings {
 
-    private LoadSettings() {
+    private MvcSettings() {
     }
 
-    private static LoadSettings instance = new LoadSettings();
+    private static MvcSettings instance = new MvcSettings();
 
-    public static LoadSettings getInstance() {
+    public static MvcSettings getInstance() {
         return instance;
     }
 
