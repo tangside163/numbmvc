@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Type;
 import java.net.URLClassLoader;
 
 /**
@@ -60,12 +61,35 @@ public class MVCLoader {
                         UrlMappingManager.getInstance().getUrlMappings().put(url, urlMapping);
                         this.evalOk(urlMapping,method,servletContext);
                     }
+
+                    //解析入口函数上的每个参数的表单请求值注入
+                    this.evalEveryParameterInMethod(method,urlMapping);
+
                 }
 
             }
 
         }
 
+    }
+
+    /**
+     * 解析入口函数上的每个参数的表单请求值注入
+     * @param method  入口函数的reflect对象
+     * @param urlMapping
+     */
+    private void evalEveryParameterInMethod(Method method, UrlMapping urlMapping) {
+
+        Type[] types = method.getGenericParameterTypes();
+
+        if(types != null && types.length > 0) {
+            for(Type type : types) {
+
+
+
+
+            }
+        }
     }
 
     /**
