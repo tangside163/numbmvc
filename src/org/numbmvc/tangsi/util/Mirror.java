@@ -1,5 +1,8 @@
 package org.numbmvc.tangsi.util;
 
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
@@ -79,5 +82,27 @@ public class Mirror {
      */
     public boolean isMapLike() {
         return Map.class.isAssignableFrom(this.clazz);
+    }
+
+    /**
+     * 根据Type类型获得其Class对象,不考虑泛型数组
+     * @param type
+     * @return
+     */
+    public static Class<?> getTypeClass(Type type) {
+        if(type instanceof  Class) return (Class)type;
+        else if(type instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            return (Class) parameterizedType.getRawType();
+        }
+        return null;
+    }
+
+    /**
+     * 是否是原始类型
+     * @return
+     */
+    public boolean isPrimitive() {
+        return this.clazz.isPrimitive();
     }
 }
