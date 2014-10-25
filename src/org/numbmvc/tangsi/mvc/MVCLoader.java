@@ -2,14 +2,24 @@ package org.numbmvc.tangsi.mvc;
 
 import org.numbmvc.tangsi.mvc.annotation.Controller;
 import org.numbmvc.tangsi.mvc.annotation.Ok;
+import org.numbmvc.tangsi.mvc.annotation.Param;
 import org.numbmvc.tangsi.mvc.annotation.RequestMapping;
+import org.numbmvc.tangsi.mvc.inject.*;
+import org.numbmvc.tangsi.util.Mirror;
 
+import javax.lang.model.type.PrimitiveType;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URLClassLoader;
+import java.util.Map;
 
 /**
  * created by tangsi 2014/9/7
@@ -82,14 +92,43 @@ public class MVCLoader {
 
         Type[] types = method.getGenericParameterTypes();
 
-        if(types != null && types.length > 0) {
-            for(Type type : types) {
+        ParamInjector[] paramInjectors = new ParamInjector[types.length];
+        //获取每个参数上的所有注解,该数组的一维长度即为该方法参数的个数
+        Annotation[][] annotations = method.getParameterAnnotations();
 
-
-
-
-            }
+        if(types.length > 0) {
+           for(int i=0,length = types.length; i < length; i++) {
+               Annotation[] annotationArray = annotations[i];
+               Param param = null;
+               for(int j=0; j < annotationArray.length; j++) {
+                    if(annotationArray[j] instanceof  Param) {
+                        param = (Param)annotationArray[j];
+                        break;
+                    }
+               }
+               paramInjectors[i] = this.evalInjector(types[i],param);
+           }
         }
+
+        urlMapping.setParamInjectors(paramInjectors);
+    }
+
+    /**
+     * 为入口函数上每个参数配置参数值注入器
+     * @param type
+     * @param param
+     * @return
+     */
+    private ParamInjector evalInjector(Type type, Param param) {
+        Class<?> clazz = Mirror.getTypeClass(type);
+        if(ServletContext.class.isAssignableFrom(clazz)) return new ServletContextInjector();
+        else if(ServletRequest.class.isAssignableFrom(clazz)) return new ServletRequestInjector();
+        else if(ServletResponse.class.isAssignableFrom(clazz)) return new ServletResponseInjector();
+        Mirror mirror = new Mirror(clazz);
+        if(mirror.isPrimitive() && param != null) return new PrimitiveInjector(clazz,param);
+
+
+        return null;
     }
 
     /**
