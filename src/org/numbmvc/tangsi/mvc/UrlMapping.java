@@ -1,5 +1,7 @@
 package org.numbmvc.tangsi.mvc;
 
+import org.numbmvc.tangsi.mvc.inject.ParamInjector;
+
 import java.lang.reflect.Method;
 
 /**
@@ -36,6 +38,12 @@ public class UrlMapping {
      * 下载配置
      */
     private String downLoadView;
+
+    /**
+     * 参数注入器
+     */
+    private ParamInjector[] paramInjectors;
+
 
     public String getDownLoadView() {
         return downLoadView;
@@ -83,5 +91,13 @@ public class UrlMapping {
 
     public void setRedirectUrl(String redirectUrl) {
         this.redirectUrl = redirectUrl;
+    }
+
+    public ParamInjector[] getParamInjectors() {
+        return paramInjectors;
+    }
+
+    public void setParamInjectors(ParamInjector[] paramInjectors) {
+        this.paramInjectors = paramInjectors;
     }
 }
